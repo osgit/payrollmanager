@@ -1,15 +1,10 @@
 package payroll.controller;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import payroll.model.elements.Employee;
 
 /**
  * @author scott julian
@@ -25,12 +20,17 @@ public class DataAccess {
 	private Statement  stmt = null;
 	private ResultSet    rs = null;
 	
-	
+	/**
+	 * Constructor for new connection
+	 */
 	public DataAccess(){
+		System.out.println("starting connection to " + SERVER + "... ");
 		this.init();
 	}
 	
-	// Initialize new connection
+	/**
+	 * Intializes and starts database connection
+	 */
 	private void init(){
 		try{
 			conn = DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DB + "?" + 
@@ -42,6 +42,10 @@ public class DataAccess {
 		    System.out.println("VendorError: " + ex.getErrorCode());
 		}
 	}
+	
+	/**
+	 * Closes the database connection
+	 */
 	public void close(){
 		if (rs != null) {
 			try { rs.close(); } 
@@ -61,23 +65,44 @@ public class DataAccess {
 	} 
 	
 	/**
-	 * authenticate user by ID and PASSWORD
+	 * Checks if user exists and has the right password
+	 * @param userID
+	 * @param pass
+	 * @return boolean
+	 */
+	public boolean checkUserValidity(String userID, String pass){
+		try {
+		    stmt = conn.createStatement();
+		    rs = stmt.executeQuery("SELECT * FROM passwd WHERE id=" + userID + " AND passwd=\"" + pass + "\" ORDER BY passwd.id"); 
+		    if(rs.next()){
+		    	return true;	
+		    }
+		    else return false;
+		}
+		catch (SQLException ex){
+		    // handle any errors
+		    System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+		}		
+		return false;
+	}
+	
+	/**
+	 * Get the user type
 	 * @param String userID
 	 * @param String userPass
 	 * @return String: "admin", "user", or "fail"
 	 */
-	public String getUserType(String userID, String pass){
+	public String getUserType(String userID){
 		try {
 		    stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT * FROM passwd JOIN employee_details ON passwd.id=employee_details.id WHERE passwd.id=" + userID + " AND passwd=\"" + pass + "\" ORDER BY passwd.id"); 
+		    rs = stmt.executeQuery("SELECT * FROM employee_details WHERE id=" + userID + " ORDER BY id"); 
 		    if(rs.next()){
 		    	String userLevel = rs.getString("level");
-		    	if(userLevel.equals("manager"))
-		    		return "admin";
-		    	else
-		    		return "user";
+		    	if(userLevel.equals("manager")) return "admin";
+		    	else return "user";
 		    }
-		   return "fail";
 		}
 		catch (SQLException ex){
 		    // handle any errors
@@ -91,7 +116,7 @@ public class DataAccess {
 	// For testing
 	public static void main(String [] args){
 		DataAccess test = new DataAccess();
-		System.out.println(test.getUserType("1", "password"));
+		System.out.println(test.getUserType("1"));
 	}
 	
 }
