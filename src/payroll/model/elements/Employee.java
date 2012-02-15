@@ -1,10 +1,10 @@
 package payroll.model.elements;
 
 public class Employee {
-	String m_Name;
-	int m_ID;
-	int m_SSN;
-	double m_PayRate;
+	public String m_Name;
+	public int m_ID;
+	public int m_SSN;
+	public double m_PayRate;
 	
 	public Employee() {
 		/* initialize */

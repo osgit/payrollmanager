@@ -11,6 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import payroll.model.enums.UserClass;
+import payroll.controller.DataAccess;
 
 public class AuthenticationController {
 	public UserClass m_UserClass;
@@ -23,6 +24,7 @@ public class AuthenticationController {
 	void getAuthentication() {
 		JPanel loginPanel;
 		String userName;
+		String userID;
 		char[] password;
 		final String[] buttonText = {"Login", "Cancel"};
 		final String dialogTitle = "Please Log In";
@@ -58,32 +60,33 @@ public class AuthenticationController {
 			{
 				login = false;
 			
-			
-				userName = userNameField.getText();
+				// probably need to change authentication from name to id
+				// fetching and 'ID' for now
+				userID  = userNameField.getText();
 				password = passwordField.getPassword();
+				String tPass = new String(password);
+						
+				DataAccess da = new DataAccess();
+				// get user type. returns 'admin', 'user', or 'fail'
+				String userType = da.getUserType(userID, tPass);
 				
-				/* perform the authentication of user information and set the user class.
-				 * Dummy testing checks below.*/
+				//close DataAccess
+				da.close();
 			
 				System.out.println("Authenticate.");
-				if(userName.equals("admin") && Arrays.equals(password, "pass".toCharArray()))
-				{
+				if(userType.equals("admin")){
 					m_UserClass = UserClass.ADMIN;
 					System.out.println("ADMIN user class.");
-				}
-				else if (userName.equals("user") && Arrays.equals(password, "pass".toCharArray()))
-				{
+				}else if (userType.equals("user")){
 					m_UserClass = UserClass.USER;
 					System.out.println("USER user class.");
-				}
-				else {
+				}else{
 					String error = "The log in information you provided is invalid.  Please try again.";
 					JOptionPane.showMessageDialog(null, error, "Invalid Login", JOptionPane.ERROR_MESSAGE);
 					login = true;  /* failed login repeats */
 				}
 			}
-			else
-				System.exit(0); /* exit if cancel pressed */
+			else System.exit(0); /* exit if cancel pressed */
 		}
 			
 	}
