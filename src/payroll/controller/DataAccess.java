@@ -43,6 +43,32 @@ public class DataAccess {
 		}
 	}
 	
+	//popEmployeeTable
+	
+	/**
+	 * Checks if user exists and has the right password
+	 * Get the user type
+	 * @param String userID
+	 * @param String pass
+	 * @return String: "admin", "user", or "fail"
+	 */
+	public String checkUserValidityAndGetType(String userID, String pass){
+		String userType = "fail";
+		try {
+		    stmt = conn.createStatement();
+		    rs = stmt.executeQuery("SELECT * FROM passwd WHERE id=" + userID + 
+		    		" AND passwd=\"" + pass + "\" ORDER BY passwd.id LIMIT 1"); 
+		    if(rs.next()) userType = rs.getString("user_type");
+		}
+		catch (SQLException ex){
+		    // handle any errors
+		    System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+		}		
+		return userType;
+	}
+	
 	/**
 	 * Closes the database connection
 	 */
@@ -64,59 +90,11 @@ public class DataAccess {
 		}
 	} 
 	
-	/**
-	 * Checks if user exists and has the right password
-	 * @param userID
-	 * @param pass
-	 * @return boolean
-	 */
-	public boolean checkUserValidity(String userID, String pass){
-		try {
-		    stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT * FROM passwd WHERE id=" + userID + " AND passwd=\"" + pass + "\" ORDER BY passwd.id"); 
-		    if(rs.next()){
-		    	return true;	
-		    }
-		    else return false;
-		}
-		catch (SQLException ex){
-		    // handle any errors
-		    System.out.println("SQLException: " + ex.getMessage());
-		    System.out.println("SQLState: " + ex.getSQLState());
-		    System.out.println("VendorError: " + ex.getErrorCode());
-		}		
-		return false;
-	}
-	
-	/**
-	 * Get the user type
-	 * @param String userID
-	 * @param String userPass
-	 * @return String: "admin", "user", or "fail"
-	 */
-	public String getUserType(String userID){
-		try {
-		    stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT * FROM employee_details WHERE id=" + userID + " ORDER BY id"); 
-		    if(rs.next()){
-		    	String userLevel = rs.getString("level");
-		    	if(userLevel.equals("manager")) return "admin";
-		    	else return "user";
-		    }
-		}
-		catch (SQLException ex){
-		    // handle any errors
-		    System.out.println("SQLException: " + ex.getMessage());
-		    System.out.println("SQLState: " + ex.getSQLState());
-		    System.out.println("VendorError: " + ex.getErrorCode());
-		}
-		return "fail";
-	}
-	
+
 	// For testing
 	public static void main(String [] args){
 		DataAccess test = new DataAccess();
-		System.out.println(test.getUserType("1"));
+		//System.out.println(test.getUserType("1"));
 	}
-	
+
 }

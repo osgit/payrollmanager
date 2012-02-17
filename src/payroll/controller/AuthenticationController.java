@@ -63,23 +63,22 @@ public class AuthenticationController {
 				login = false;
 			
 				// probably need to change authentication from name to id
-				// fetching and 'ID' for now
+				// fetching 'ID' for now
 				userID  = userNameField.getText();
 				password = passwordField.getPassword();
 				String tPass = new String(password); 
 				
 				System.out.println("Authenticate.");
-				if(da.checkUserValidity(userID, tPass)){
-					userType = da.getUserType(userID); // gets 'admin' or 'user'
-					if(userType.equals("admin")){
-						m_UserClass = UserClass.ADMIN;
-						System.out.println("ADMIN user class.");
-					}else{
-						m_UserClass = UserClass.USER;
-						System.out.println("USER user class.");
-					}
-				}
-				else{
+				
+				// TODO
+				userType = da.checkUserValidityAndGetType(userID, tPass); // gets "admin", "user", or "fail"
+				if(userType.equals("admin")){
+					m_UserClass = UserClass.ADMIN;
+					System.out.println("ADMIN user class.");
+				}else if(userType.equals("user")){
+					m_UserClass = UserClass.USER;
+					System.out.println("USER user class.");
+				}else{
 					String error = "The log in information you provided is invalid.  Please try again.";
 					JOptionPane.showMessageDialog(null, error, "Invalid Login", JOptionPane.ERROR_MESSAGE);
 					login = true;  /* failed login repeats */
