@@ -2,7 +2,7 @@ package payroll.model.enums;
 
 public enum Months {
 	JANUARY(1, "Jan."),
-	FEBRURARY(2, "Feb"),
+	FEBRURARY(2, "Feb."),
 	MARCH(3, "Mar."),
 	APRIL(4, "Apr."),
 	MAY(5, "May"),

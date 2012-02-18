@@ -70,7 +70,6 @@ public class AuthenticationController {
 				
 				System.out.println("Authenticate.");
 				
-				// TODO
 				userType = da.checkUserValidityAndGetType(userID, tPass); // gets "admin", "user", or "fail"
 				if(userType.equals("admin")){
 					m_UserClass = UserClass.ADMIN;

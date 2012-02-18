@@ -2,20 +2,28 @@ package payroll.model;
 
 import javax.swing.table.AbstractTableModel;
 
+import payroll.controller.DataAccess;
 import payroll.controller.MainController;
 
 @SuppressWarnings("serial")
 public class EmployeeTableModel extends AbstractTableModel {
-	private String[] m_Columns = {"Name", "Regular Hours", "Overtime Hours", "Calculated Pay"}; /* Incomplete  this need to be updated */
-	Object[][] m_TableData = {{"Billy Bob", new Float(34.6), new Float(0), new Float(345.60)}};  /* initializer for testing */
-	
+	// Headers will change once we have a set table stucture for hours.
+	private String[] m_Columns = {"ID", "Last Name", "First Name", "Regular Hours", "Overtime Hours", "Calculated Pay"};
+	private Object[][] m_TableData;
 
 	
 	public EmployeeTableModel(MainController controller){
-		/* 
-		 * Need a method in the controller to return the table data
-		 * so we can populate m_tableData
+		DataAccess da = new DataAccess();
+		
+		/* TODO
+		 **Need to implement this function to take a variable on how to sort the data.
+		 * deafult: sort by last_name ASC
+		 * 
+		 **Need to implement funtion to take a month, or "pay period"
+		 * for the tree structure... might implement another function for tree though.
 		 */
+		m_TableData = da.popEmployeeTable(m_Columns.length); //	populate the table given the number of headers.
+		da.close();
 	}
 	public int getColumnCount() {
 		return m_Columns.length;
