@@ -5,8 +5,10 @@
 package payroll.controller;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import payroll.model.MainModel;
+import payroll.model.PayrollException;
 import payroll.model.enums.UserClass;
 import payroll.view.MainView;
 
@@ -17,7 +19,7 @@ import payroll.view.MainView;
 public class MainController extends AbstractController {
 	UserClass m_UserClass;
 	
-    public MainController() {
+    public MainController() throws PayrollException {
         setModel(new MainModel());
         setView(new MainView((MainModel)getModel(), this));
         MainView view = (MainView)getView();
@@ -33,5 +35,19 @@ public class MainController extends AbstractController {
         view.setView(m_UserClass);
     }
     
-    
+    public static void handlePayrollException(PayrollException pe) {
+            String str = "";
+            StackTraceElement[] ste = null;
+            Throwable t = pe;
+            do {
+                str += (t.getMessage() != null ? t.getMessage() + "\n" : "");
+                ste = t.getStackTrace();
+                for (StackTraceElement s : ste) {
+                    str += s.toString() + "\n";
+                }
+                str += "\n";
+            }while ((t = t.getCause()) != null);
+            JOptionPane.showMessageDialog(null, str,
+                    "Error starting application", JOptionPane.ERROR_MESSAGE);
+    }
 }

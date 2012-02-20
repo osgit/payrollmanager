@@ -1,7 +1,6 @@
 package payroll.model;
 
 import javax.swing.table.AbstractTableModel;
-
 import payroll.controller.DataAccess;
 import payroll.controller.MainController;
 
@@ -12,7 +11,8 @@ public class EmployeeTableModel extends AbstractTableModel {
 	private Object[][] m_TableData;
 
 	
-	public EmployeeTableModel(MainController controller){
+	public EmployeeTableModel(MainController controller)
+            throws PayrollException {
 		DataAccess da = new DataAccess();
 		
 		/* TODO
