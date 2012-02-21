@@ -1,8 +1,10 @@
 ----------------------------------------------------------------
-2012-02-20 20:26:36.486 GMT:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.6.2.1 - (999685): instance a816c00e-0135-9c71-c417-000004b4d2b8 
+Tue Feb 21 04:52:32 CST 2012:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0135-9f8a-8e10-000004ab9e10 
 on database directory E:\Dev\NetBeans\TxState\Spring2012\CS 5394-Advanced Software Engineering Project\Payroll Manager\build\classes\payroll\controller\payroll_db  with class loader sun.misc.Launcher$AppClassLoader@40735f45 
-Loaded from file:/C:/Program%20Files/glassfish-3.1.1/javadb/lib/derby.jar
+Loaded from file:/E:/Programming/Language/Java/Miscellaneous/JavaDB/db-derby-10.8.2.2-bin/db-derby-10.8.2.2-bin/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0-b147
+user.dir=E:\Dev\NetBeans\TxState\Spring2012\CS 5394-Advanced Software Engineering Project\Payroll Manager
+derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
