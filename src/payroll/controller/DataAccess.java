@@ -37,8 +37,8 @@ public class DataAccess {
         String userType = "fail";
         try {
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM passwd WHERE \"id\"='" + userID
-                    + "' AND passwd='" + pass + "'");
+            rs = stmt.executeQuery("SELECT user_type FROM passwd WHERE uid = "
+                    + userID + " AND passwd = '" + pass + "'");
             if (rs.next()) {
                 userType = rs.getString("user_type");
             }
@@ -67,7 +67,7 @@ public class DataAccess {
             rs.first(); // move to first row
             for (int i = 0; i < count; i++) {
                 // need to change when we actually have a table that holds hours
-                m_TableData[i][0] = rs.getString("id");
+                m_TableData[i][0] = rs.getString("e_id");
                 m_TableData[i][1] = rs.getString("last_name");
                 m_TableData[i][2] = rs.getString("first_name");
                 m_TableData[i][3] = new Float(7);
